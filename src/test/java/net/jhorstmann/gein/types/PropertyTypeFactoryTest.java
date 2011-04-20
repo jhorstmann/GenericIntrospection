@@ -1,16 +1,10 @@
 package net.jhorstmann.gein.types;
 
-import net.jhorstmann.gein.types.PropertyType;
-import net.jhorstmann.gein.types.PropertyTypeFactory;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PropertyTypeFactoryTest {
-    public final List<String> listOfString = new ArrayList<String>();
-    public final List<List<String>> listOfListOfString = new ArrayList<List<String>>();
-
     @Test
     public void testAtomicType() {
         PropertyType type = PropertyTypeFactory.fromType(Integer.TYPE);
@@ -22,7 +16,7 @@ public class PropertyTypeFactoryTest {
 
     @Test
     public void testListOfString() throws NoSuchFieldException {
-        PropertyType type = PropertyTypeFactory.fromType(PropertyTypeFactoryTest.class.getDeclaredField("listOfString").getGenericType());
+        PropertyType type = PropertyTypeFactory.fromToken(new TypeToken<List<String>>(){});
         assertFalse(type.isAtomic());
         assertTrue(type.isCollection());
         assertFalse(type.isMap());
@@ -32,7 +26,7 @@ public class PropertyTypeFactoryTest {
 
     @Test
     public void testListOfListOfString() throws NoSuchFieldException {
-        PropertyType type = PropertyTypeFactory.fromType(PropertyTypeFactoryTest.class.getDeclaredField("listOfListOfString").getGenericType());
+        PropertyType type = PropertyTypeFactory.fromToken(new TypeToken<List<List<String>>>(){});
         assertFalse(type.isAtomic());
         assertTrue(type.isCollection());
         assertFalse(type.isMap());

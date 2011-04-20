@@ -40,6 +40,10 @@ public class PropertyTypeFactory {
         return Map.class == clazz || SortedMap.class == clazz;
     }
 
+    public static PropertyType fromToken(TypeToken token) {
+        return token.getType();
+    }
+
     public static PropertyType fromProperty(Class clazz, String propertyName) throws NoSuchMethodException {
         String methodName = "get" + propertyName.substring(0, 1).toUpperCase(Locale.ENGLISH) + propertyName.substring(1);
         Method method = clazz.getMethod(methodName);
