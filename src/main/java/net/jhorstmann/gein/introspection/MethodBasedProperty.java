@@ -16,10 +16,12 @@ class MethodBasedProperty extends PropertyDelegate {
 
     MethodBasedProperty(Method readMethod, Method writeMethod, String name) {
         super(readMethod.getDeclaringClass(), readMethod.getGenericReturnType(), name);
-        this.readMethod = new WeakReference<Method>(readMethod);
-        this.writeMethod = writeMethod == null ? null : new WeakReference<Method>(writeMethod);
         makeAccessible(readMethod.getDeclaringClass(), readMethod.getModifiers(), readMethod);
-        makeAccessible(writeMethod.getDeclaringClass(), writeMethod.getModifiers(), writeMethod);
+        this.readMethod = new WeakReference<Method>(readMethod);
+        if (writeMethod != null) {
+            makeAccessible(writeMethod.getDeclaringClass(), writeMethod.getModifiers(), writeMethod);
+            this.writeMethod = new WeakReference<Method>(writeMethod);
+        }
     }
 
     MethodBasedProperty(Method readMethod, String name) {
