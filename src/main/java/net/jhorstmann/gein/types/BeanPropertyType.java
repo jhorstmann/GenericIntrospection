@@ -41,6 +41,6 @@ final class BeanPropertyType extends PropertyType {
 
     @Override
     public Object getDefaultImpl() {
-        return newInstance(beanClass.get());
+        return PropertyTypeFactory.newInstance(beanClass.get());
     }
 }

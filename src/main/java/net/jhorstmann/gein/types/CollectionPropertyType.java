@@ -70,7 +70,7 @@ final class CollectionPropertyType extends PropertyType {
         } else if (List.class == clazz || Collection.class == clazz) {
             return Collections.checkedList(new ArrayList(), elementType.getRawType());
         } else {
-            return newInstance(clazz);
+            return PropertyTypeFactory.newInstance(clazz);
         }
     }
 }

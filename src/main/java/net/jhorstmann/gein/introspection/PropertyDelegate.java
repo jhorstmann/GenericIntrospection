@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import net.jhorstmann.gein.types.PropertyType;
-import net.jhorstmann.gein.types.PropertyTypeFactory;
 
 public abstract class PropertyDelegate {
 
@@ -27,7 +26,7 @@ public abstract class PropertyDelegate {
     }
 
     PropertyDelegate(Class declaringClass, Type type, String name) {
-        this(declaringClass, PropertyTypeFactory.fromType(type), name);
+        this(declaringClass, PropertyType.fromType(type), name);
     }
 
     PropertyDelegate(Class declaringClass, PropertyType type, String name) {

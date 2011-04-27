@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class PropertyTypeFactoryTest {
     @Test
     public void testAtomicType() {
-        PropertyType type = PropertyTypeFactory.fromType(Integer.TYPE);
+        PropertyType type = PropertyType.fromType(Integer.TYPE);
         assertTrue(type.isAtomic());
         assertFalse(type.isCollection());
         assertFalse(type.isMap());
@@ -16,7 +16,7 @@ public class PropertyTypeFactoryTest {
 
     @Test
     public void testListOfString() throws NoSuchFieldException {
-        PropertyType type = PropertyTypeFactory.fromToken(new TypeToken<List<String>>(){});
+        PropertyType type = PropertyType.fromToken(new TypeToken<List<String>>(){});
         assertFalse(type.isAtomic());
         assertTrue(type.isCollection());
         assertFalse(type.isMap());
@@ -26,7 +26,7 @@ public class PropertyTypeFactoryTest {
 
     @Test
     public void testListOfListOfString() throws NoSuchFieldException {
-        PropertyType type = PropertyTypeFactory.fromToken(new TypeToken<List<List<String>>>(){});
+        PropertyType type = PropertyType.fromToken(new TypeToken<List<List<String>>>(){});
         assertFalse(type.isAtomic());
         assertTrue(type.isCollection());
         assertFalse(type.isMap());

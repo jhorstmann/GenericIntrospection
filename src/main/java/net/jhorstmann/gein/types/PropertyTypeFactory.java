@@ -1,6 +1,8 @@
 package net.jhorstmann.gein.types;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -15,8 +17,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import net.jhorstmann.gein.introspection.ReflectException;
 
-public class PropertyTypeFactory {
+class PropertyTypeFactory {
     static final AtomicPropertyType OBJECT = new AtomicPropertyType(Object.class);
     static final AtomicPropertyType INTEGER = new AtomicPropertyType(Integer.class);
     static final AtomicPropertyType STRING = new AtomicPropertyType(String.class);
@@ -39,31 +42,53 @@ public class PropertyTypeFactory {
     static boolean isMap(Class clazz) {
         return Map.class == clazz || SortedMap.class == clazz;
     }
-
-    public static PropertyType fromToken(TypeToken token) {
-        return token.getType();
+    
+    static <T> T newInstance(Class<T> clazz) {
+        try {
+            Constructor<T> constructor = clazz.getConstructor();
+            try {
+                return constructor.newInstance();
+            } catch (InstantiationException ex) {
+                throw new ReflectException(ex);
+            } catch (IllegalAccessException ex) {
+                throw new ReflectException(ex);
+            } catch (IllegalArgumentException ex) {
+                throw new ReflectException(ex);
+            } catch (InvocationTargetException ex) {
+                Throwable cause = ex.getCause();
+                if (cause instanceof RuntimeException) {
+                    throw (RuntimeException)cause;
+                } else {
+                    throw new ReflectException(cause);
+                }
+            }
+        } catch (NoSuchMethodException ex) {
+            throw new ReflectException(ex);
+        } catch (SecurityException ex) {
+            throw new ReflectException(ex);
+        }
     }
 
-    public static PropertyType fromProperty(Class clazz, String propertyName) throws NoSuchMethodException {
+    static PropertyType fromProperty(Class clazz, String propertyName) throws NoSuchMethodException {
         String methodName = "get" + propertyName.substring(0, 1).toUpperCase(Locale.ENGLISH) + propertyName.substring(1);
         Method method = clazz.getMethod(methodName);
         return fromReturnType(method);
     }
 
-    public static PropertyType fromReturnType(Method method) {
+    static PropertyType fromReturnType(Method method) {
         return fromType(method.getGenericReturnType());
     }
 
-    public static PropertyType fromField(Class clazz, String fieldName) throws NoSuchFieldException {
+    static PropertyType fromField(Class clazz, String fieldName) throws NoSuchFieldException {
         Field field = clazz.getDeclaredField(fieldName);
         return fromField(field);
     }
 
-    public static PropertyType fromField(Field field) {
+    static PropertyType fromField(Field field) {
         return fromType(field.getGenericType());
     }
 
-    public static PropertyType fromType(Type type) {
+    static PropertyType fromType(Type type) {
         if (type instanceof Class) {
             Class clazz = (Class)type;
             if (isCollection(clazz)) {

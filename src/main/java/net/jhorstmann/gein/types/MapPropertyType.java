@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.WeakHashMap;
 
 final class MapPropertyType extends PropertyType {
 
@@ -58,7 +57,7 @@ final class MapPropertyType extends PropertyType {
         } else if (SortedMap.class == clazz) {
             return Collections.checkedMap(new TreeMap(), keyType.getRawType(), valueType.getRawType());
         } else {
-            return newInstance(clazz);
+            return PropertyTypeFactory.newInstance(clazz);
         }
     }
 }

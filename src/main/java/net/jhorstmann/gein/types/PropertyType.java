@@ -1,8 +1,6 @@
 package net.jhorstmann.gein.types;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import net.jhorstmann.gein.introspection.ReflectException;
+import java.lang.reflect.Type;
 
 public abstract class PropertyType {
     public abstract boolean isCollection();
@@ -12,30 +10,12 @@ public abstract class PropertyType {
     public abstract PropertyType getKeyType();
     public abstract PropertyType getElementType();
     public abstract Object getDefaultImpl();
+    
+    public static PropertyType fromType(Type type) {
+        return PropertyTypeFactory.fromType(type);
+    }
 
-    static <T> T newInstance(Class<T> clazz) {
-        try {
-            Constructor<T> constructor = clazz.getConstructor();
-            try {
-                return constructor.newInstance();
-            } catch (InstantiationException ex) {
-                throw new ReflectException(ex);
-            } catch (IllegalAccessException ex) {
-                throw new ReflectException(ex);
-            } catch (IllegalArgumentException ex) {
-                throw new ReflectException(ex);
-            } catch (InvocationTargetException ex) {
-                Throwable cause = ex.getCause();
-                if (cause instanceof RuntimeException) {
-                    throw (RuntimeException)cause;
-                } else {
-                    throw new ReflectException(cause);
-                }
-            }
-        } catch (NoSuchMethodException ex) {
-            throw new ReflectException(ex);
-        } catch (SecurityException ex) {
-            throw new ReflectException(ex);
-        }
+    public static PropertyType fromToken(TypeToken token) {
+        return token.getType();
     }
 }
