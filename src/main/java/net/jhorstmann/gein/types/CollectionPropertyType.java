@@ -90,4 +90,9 @@ final class CollectionPropertyType extends PropertyType {
     public int hashCode() {
         return collectionType.get().hashCode() * 17 + elementType.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return collectionType.get().getName() + "<" + elementType.toString() + ">";
+    }
 }

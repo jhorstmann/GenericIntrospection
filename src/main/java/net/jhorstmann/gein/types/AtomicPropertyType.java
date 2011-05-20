@@ -73,4 +73,9 @@ final class AtomicPropertyType extends PropertyType {
     public int hashCode() {
         return type.hashCode();
     }
+    
+    @Override
+    public String toString() {
+        return type.isPrimitive() ? type.toString() : type.getName();
+    }
 }

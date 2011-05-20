@@ -60,4 +60,9 @@ final class BeanPropertyType extends PropertyType {
     public int hashCode() {
         return beanClass.get().hashCode();
     }
+    
+    @Override
+    public String toString() {
+        return beanClass.get().getName();
+    }
 }

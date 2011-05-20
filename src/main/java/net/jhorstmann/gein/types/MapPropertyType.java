@@ -77,4 +77,9 @@ final class MapPropertyType extends PropertyType {
     public int hashCode() {
         return (mapClass.get().hashCode() * 17 + keyType.hashCode()) * 17 + valueType.hashCode();
     }
+    
+    @Override
+    public String toString() {
+        return mapClass.get().getName() + "<" + keyType.toString() + ", " + valueType.toString() + ">";
+    }
 }
