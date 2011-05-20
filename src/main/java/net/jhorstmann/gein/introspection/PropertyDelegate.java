@@ -1,5 +1,6 @@
 package net.jhorstmann.gein.introspection;
 
+import java.lang.annotation.Annotation;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
@@ -7,6 +8,7 @@ import java.lang.reflect.Type;
 import static java.lang.reflect.Modifier.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import net.jhorstmann.gein.types.PropertyType;
@@ -46,6 +48,9 @@ public abstract class PropertyDelegate {
     public PropertyType getPropertyType() {
         return propertyType;
     }
+    
+    public abstract List<? extends Annotation> getAnnotations();
+    public abstract <A extends Annotation> A getAnnotations(Class<A> annotationClass);
 
     public abstract boolean isMutable();
     public abstract void setValue(Object bean, Object value) throws InvocationTargetException;

@@ -1,12 +1,17 @@
 package net.jhorstmann.gein.introspection;
 
+import java.lang.annotation.Annotation;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 class FieldBasedProperty extends PropertyDelegate {
 
     private WeakReference<Field> field;
+    private List<Annotation> annotations;
 
     FieldBasedProperty(Field field) {
         this(field, field.getName());
@@ -20,6 +25,20 @@ class FieldBasedProperty extends PropertyDelegate {
 
     Field getField() {
         return field.get();
+    }
+
+    @Override
+    public List<? extends Annotation> getAnnotations() {
+        if (annotations != null) {
+            Annotation[] arr = getField().getAnnotations();
+            annotations = Collections.unmodifiableList(Arrays.asList(arr));
+        }
+        return annotations;
+    }
+
+    @Override
+    public <A extends Annotation> A getAnnotations(Class<A> annotationClass) {
+        return getField().getAnnotation(annotationClass);
     }
 
     @Override

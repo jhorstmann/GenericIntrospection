@@ -1,7 +1,9 @@
 package net.jhorstmann.gein.introspection;
 
 
+import java.lang.annotation.Annotation;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 class MapBasedProperty extends PropertyDelegate {
@@ -10,6 +12,16 @@ class MapBasedProperty extends PropertyDelegate {
 
     MapBasedProperty(Class<? extends Map> declaringClass, Class<?> valueType, String name) {
         super(declaringClass, valueType, name);
+    }
+
+    @Override
+    public List<? extends Annotation> getAnnotations() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public <A extends Annotation> A getAnnotations(Class<A> annotationClass) {
+        return null;
     }
 
     @Override
