@@ -43,4 +43,21 @@ final class BeanPropertyType extends PropertyType {
     public Object getDefaultImpl() {
         return PropertyTypeFactory.newInstance(beanClass.get());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (getClass() != obj.getClass()) {
+            return false;
+        } else {
+            final BeanPropertyType other = (BeanPropertyType) obj;
+            return this.beanClass.get().equals(other.beanClass.get());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return beanClass.get().hashCode();
+    }
 }

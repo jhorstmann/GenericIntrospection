@@ -60,4 +60,21 @@ final class MapPropertyType extends PropertyType {
             return PropertyTypeFactory.newInstance(clazz);
         }
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (getClass() != obj.getClass()) {
+            return false;
+        } else {
+            final MapPropertyType other = (MapPropertyType) obj;
+            return this.mapClass.get().equals(other.mapClass.get()) && this.keyType.equals(other.keyType) && this.valueType.equals(other.valueType);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return (mapClass.get().hashCode() * 17 + keyType.hashCode()) * 17 + valueType.hashCode();
+    }
 }

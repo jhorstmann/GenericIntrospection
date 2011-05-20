@@ -10,6 +10,10 @@ public abstract class PropertyType {
     public abstract PropertyType getKeyType();
     public abstract PropertyType getElementType();
     public abstract Object getDefaultImpl();
+    @Override
+    public abstract boolean equals(Object other);
+    @Override
+    public abstract int hashCode();
     
     public static PropertyType fromType(Type type) {
         return PropertyTypeFactory.fromType(type);

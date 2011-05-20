@@ -56,4 +56,21 @@ final class AtomicPropertyType extends PropertyType {
 
         return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (getClass() != obj.getClass()) {
+            return false;
+        } else {
+            final AtomicPropertyType other = (AtomicPropertyType) obj;
+            return this.type.equals(other.type);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return type.hashCode();
+    }
 }

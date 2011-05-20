@@ -73,4 +73,21 @@ final class CollectionPropertyType extends PropertyType {
             return PropertyTypeFactory.newInstance(clazz);
         }
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (getClass() != obj.getClass()) {
+            return false;
+        } else {
+            final CollectionPropertyType other = (CollectionPropertyType) obj;
+            return this.collectionType.get().equals(other.collectionType.get()) && this.elementType.equals(other.elementType);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return collectionType.get().hashCode() * 17 + elementType.hashCode();
+    }
 }
