@@ -39,6 +39,7 @@ public class Introspection {
                 PropertyDelegate delegate = new MapBasedProperty(beanClass, Object.class, "");
                 res = Collections.singletonMap("", delegate);
             } else {
+                res = new HashMap<String, PropertyDelegate>();
                 introspectFieldsRec(beanClass, res);
             }
             cache.put(beanClass, res);
