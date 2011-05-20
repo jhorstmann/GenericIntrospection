@@ -61,6 +61,11 @@ final class CollectionPropertyType extends PropertyType {
     }
 
     @Override
+    public boolean isArray() {
+        return false;
+    }
+
+    @Override
     public Collection getDefaultImpl() {
         Class<? extends Collection> clazz = collectionType.get();
         if (SortedSet.class == clazz) {

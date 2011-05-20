@@ -6,6 +6,7 @@ public abstract class PropertyType {
     public abstract boolean isCollection();
     public abstract boolean isMap();
     public abstract boolean isAtomic();
+    public abstract boolean isArray();
     public abstract Class<?> getRawType();
     public abstract PropertyType getKeyType();
     public abstract PropertyType getElementType();

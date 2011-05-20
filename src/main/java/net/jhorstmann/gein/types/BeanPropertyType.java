@@ -25,6 +25,11 @@ final class BeanPropertyType extends PropertyType {
     }
 
     @Override
+    public boolean isArray() {
+        return false;
+    }
+
+    @Override
     public Class<?> getRawType() {
         return beanClass.get();
     }

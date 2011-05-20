@@ -36,6 +36,11 @@ final class AtomicPropertyType extends PropertyType {
     }
 
     @Override
+    public boolean isArray() {
+        return false;
+    }
+
+    @Override
     public PropertyType getKeyType() {
         throw new UnsupportedOperationException("Not a container type");
     }

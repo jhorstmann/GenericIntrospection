@@ -50,6 +50,11 @@ final class MapPropertyType extends PropertyType {
     }
 
     @Override
+    public boolean isArray() {
+        return false;
+    }
+
+    @Override
     public Map getDefaultImpl() {
         Class<? extends Map> clazz = mapClass.get();
         if (Map.class == clazz) {

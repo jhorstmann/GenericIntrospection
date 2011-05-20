@@ -2,6 +2,7 @@ package net.jhorstmann.gein.types;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -129,8 +130,11 @@ class PropertyTypeFactory {
             WildcardType wildcardType = (WildcardType) type;
             Type[] lowerBounds = wildcardType.getLowerBounds();
             return fromType(lowerBounds[0]);
+        } else if (type instanceof GenericArrayType) {
+            GenericArrayType arrayType = (GenericArrayType) type;
+            return new ArrayPropertyType(fromType(arrayType.getGenericComponentType()));
         } else {
-            throw new IllegalArgumentException("Unknown type '" + type + "'");
+            throw new IllegalArgumentException("Unknown type '" + type + "' (" + type.getClass().getSimpleName() + ")");
         }
     }
 }

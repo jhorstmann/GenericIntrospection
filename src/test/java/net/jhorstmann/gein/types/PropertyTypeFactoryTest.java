@@ -35,6 +35,16 @@ public class PropertyTypeFactoryTest {
         assertEquals(List.class, type.getElementType().getRawType());
         assertEquals(String.class, type.getElementType().getElementType().getRawType());
     }
+
+    @Test
+    public void testArrayOfString() {
+        PropertyType type = PropertyType.fromToken(new TypeToken<String[]>(){});
+        assertFalse(type.isAtomic());
+        assertFalse(type.isCollection());
+        assertFalse(type.isMap());
+        assertEquals(String[].class, type.getRawType());
+        assertEquals(String.class, type.getElementType().getRawType());
+    }
     
     @Test
     public void testAtomicTypeToString() {
@@ -53,5 +63,29 @@ public class PropertyTypeFactoryTest {
     @Test
     public void testMapTypeToString() {
         assertEquals("java.util.Map<java.lang.String, java.lang.Integer>", PropertyType.fromToken(new TypeToken<Map<String, Integer>>(){}).toString());
+    }
+    
+    @Test
+    public void testArrayTypeToString() {
+        assertEquals("java.lang.String[]", PropertyType.fromToken(new TypeToken<String[]>(){}).toString());
+        assertEquals("java.lang.String[][]", PropertyType.fromToken(new TypeToken<String[][]>(){}).toString());
+    }
+
+    @Test
+    public void testPrimitiveArrayTypeToString() {
+        assertEquals("int[]", PropertyType.fromToken(new TypeToken<int[]>(){}).toString());
+        assertEquals("int[][]", PropertyType.fromToken(new TypeToken<int[][]>(){}).toString());
+    }
+
+    @Test
+    public void testGenericArrayTypeToString() {
+        assertEquals("java.util.List<java.lang.String>[]", PropertyType.fromToken(new TypeToken<List<String>[]>(){}).toString());
+        assertEquals("java.util.List<java.lang.String>[][]", PropertyType.fromToken(new TypeToken<List<String>[][]>(){}).toString());
+
+        assertEquals("java.util.List<java.lang.String[]>", PropertyType.fromToken(new TypeToken<List<String[]>>(){}).toString());
+        assertEquals("java.util.List<java.lang.String[][]>", PropertyType.fromToken(new TypeToken<List<String[][]>>(){}).toString());
+
+        assertEquals("java.util.List<java.lang.String[]>[]", PropertyType.fromToken(new TypeToken<List<String[]>[]>(){}).toString());
+        assertEquals("java.util.List<java.lang.String[][]>[][]", PropertyType.fromToken(new TypeToken<List<String[][]>[][]>(){}).toString());
     }
 }
